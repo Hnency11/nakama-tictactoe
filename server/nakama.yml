@@ -1,0 +1,24 @@
+name: "nakama"
+logger:
+  level: INFO
+
+database:
+  address: ${DB_HOST}
+  port: ${DB_PORT}
+  user: ${DB_USER}
+  password: ${DB_PASSWORD}
+  database: ${DB_NAME}
+  ssl: false
+
+runtime:
+  path: /data/modules
+
+socket:
+  client_port: 7350
+  server_port: 7351
+  tls:
+    enabled: false
+
+metrics:
+  prometheus:
+    enabled: false
