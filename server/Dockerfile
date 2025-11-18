@@ -1,4 +1,4 @@
-# server/Dockerfile — ensure envsubst runs before Nakama starts using ENTRYPOINT
+# server/Dockerfile — run envsubst then start Nakama by absolute path
 FROM heroiclabs/nakama:latest
 
 # Copy template and compiled modules
@@ -14,5 +14,5 @@ RUN if command -v apk >/dev/null 2>&1; then \
 
 ENV NAKAMA_RUNTIME_PATH=/data/modules
 
-# Use ENTRYPOINT to ensure the shell runs (so envsubst executes)
-ENTRYPOINT ["sh", "-c", "envsubst < /data/nakama.yml.template > /data/nakama.yml && echo '--- BEGIN nakama.yml (resolved) ---' && sed -n '1,200p' /data/nakama.yml && echo '--- END nakama.yml ---' && exec nakama --config /data/nakama.yml"]
+# Use ENTRYPOINT to ensure the shell runs; call nakama by absolute path
+ENTRYPOINT ["sh", "-c", "envsubst < /data/nakama.yml.template > /data/nakama.yml && echo '--- BEGIN nakama.yml (resolved) ---' && sed -n '1,200p' /data/nakama.yml && echo '--- END nakama.yml ---' && exec /nakama/nakama --config /data/nakama.yml"]
