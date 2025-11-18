@@ -1,14 +1,10 @@
 {
-  "name": "server",
+  "name": "nakama-server",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
     "typescript": "^5.9.3"
   }
