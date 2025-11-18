@@ -21,3 +21,6 @@ RUN if command -v apk >/dev/null 2>&1; then \
       rm -rf /var/lib/apt/lists/*; \
     fi
 
+# Make sure the start script is the container's entrypoint
+# start.sh will run Nakama migrations then start Nakama using $DATABASE_URL
+CMD ["/start.sh"]
