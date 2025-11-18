@@ -9,14 +9,15 @@ COPY nginx.conf /etc/nginx/nginx.conf
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Install envsubst (gettext) and nginx
+# Install envsubst (gettext) and nginx non-interactively
 RUN if command -v apk >/dev/null 2>&1; then \
       apk add --no-cache gettext nginx; \
     elif command -v apt-get >/dev/null 2>&1; then \
-      apt-get update && apt-get install -y gettext-base nginx && rm -rf /var/lib/apt/lists/*; \
+      apt-get update && \
+      DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        -o Dpkg::Options::="--force-confdef" \
+        -o Dpkg::Options::="--force-confold" \
+        gettext-base nginx && \
+      rm -rf /var/lib/apt/lists/*; \
     fi
 
-ENV NAKAMA_RUNTIME_PATH=/data/modules
-
-# Entrypoint runs the start script which runs envsubst, starts nakama, then runs nginx
-ENTRYPOINT ["/start.sh"]
